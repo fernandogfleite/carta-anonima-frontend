@@ -7,6 +7,9 @@ type LetterApiModel = {
   content: string;
   anonymous_hint?: string | null;
   is_revealed: boolean;
+  is_solved: boolean;
+  solved_at?: string | null;
+  attempts_count?: number;
   created_at: string;
   sender_name?: string;
 };

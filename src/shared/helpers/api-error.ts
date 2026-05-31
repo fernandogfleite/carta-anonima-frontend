@@ -6,9 +6,8 @@ export const parseApiError = (error: unknown): string => {
     return error.message;
   }
   if (isAxiosError(error)) {
-    return (
-      error.response?.data?.error?.message ?? error.message ?? "Erro inesperado"
-    );
+    const data = error.response?.data as ApiErrorResponse | undefined;
+    return data?.error?.message ?? error.message ?? "Erro inesperado";
   }
   if (typeof error === "object" && error && "message" in error) {
     return String((error as { message?: string }).message ?? "Erro inesperado");
@@ -18,4 +17,10 @@ export const parseApiError = (error: unknown): string => {
 
 const isAxiosError = (error: unknown): error is AxiosError => {
   return Boolean(error && typeof error === "object" && "isAxiosError" in error);
+};
+
+type ApiErrorResponse = {
+  error?: {
+    message?: string;
+  };
 };

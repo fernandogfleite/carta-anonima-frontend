@@ -8,12 +8,14 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   useEffect(() => {
-    return toastBus.subscribe((toast) => {
+    const unsubscribe = toastBus.subscribe((toast) => {
       setToasts((prev) => [...prev, toast]);
       setTimeout(() => {
         setToasts((prev) => prev.filter((item) => item.id !== toast.id));
       }, 4200);
     });
+
+    return unsubscribe;
   }, []);
 
   return (
